@@ -1,0 +1,42 @@
+<project default="compile" basedir=".">
+        <property name="src" location="src" />
+        <property name="build" location="bin" />
+        <property name="res" location="res" />
+        <property name="jar" location="minigolf.jar" />
+
+        <target name="compile">
+            <delete file="${jar}" />
+            <delete dir="${build}"/>
+            <mkdir dir="${build}"/>
+
+            <javac srcdir="${src}" destdir="${build}" debug="on" encoding="iso-8859-1">
+                <classpath>
+                    <pathelement path="${java.class.path}/"/>
+                </classpath>
+            </javac>
+
+            <jar basedir="${build}" destfile="${jar}">
+                <manifest>
+                        <attribute name="Main-Class" value="org.moparforia.client.Launcher" />
+                </manifest>
+                <fileset includes="**/*" dir="${res}" />
+            </jar>
+        </target>
+
+        <target name="run">
+                <java classname="org.moparforia.client.Launcher" fork="true">
+                        <jvmarg value="-Xms128m" />
+                        <jvmarg value="-Xmx512m" />
+                        <arg value="${settings}" />
+                        <classpath>
+                                <pathelement path="${jar}/" />
+                        </classpath>
+                </java>
+        </target>
+
+        <target name="clean">
+                <delete file="${jar}" />
+                <delete dir="${build}"/>
+        </target>
+
+</project>
